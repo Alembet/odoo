@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Restrict the "Apps" menus to base.group_no_one.
+        group_no_one is only active in Developer Mode, so in normal use these
+        menus are hidden from everyone — including administrators.
+
+        To re-enable: uninstall this module, or turn on Developer Mode
+        (Settings > General Settings > Developer Tools > Activate).
+    -->
+
+    <!-- Top-level "Apps" menu (Apps store / installer) -->
+    <record id="base.menu_management" model="ir.ui.menu">
+        <field name="group_ids" eval="[(6, 0, [ref('base.group_no_one')])]"/>
+    </record>
+
+    <!-- The module installer list (child of Apps) -->
+    <record id="base.menu_module_tree" model="ir.ui.menu">
+        <field name="group_ids" eval="[(6, 0, [ref('base.group_no_one')])]"/>
+    </record>
+</odoo>
