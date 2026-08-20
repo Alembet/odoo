@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bulletin_paie_hr_user,x.bulletin.paie hr user,model_x_bulletin_paie,hr.group_hr_user,1,1,1,0
+access_bulletin_paie_hr_manager,x.bulletin.paie hr manager,model_x_bulletin_paie,hr.group_hr_manager,1,1,1,1

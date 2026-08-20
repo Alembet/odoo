@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_form_l10n_ga" model="ir.ui.view">
+        <field name="name">hr.employee.form.l10n_ga</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Paie (Gabon)" name="l10n_ga_paie">
+                    <group>
+                        <group string="Organismes sociaux">
+                            <field name="x_cnss"/>
+                            <field name="x_cnamgs"/>
+                        </group>
+                        <group string="Fiscalité &amp; planning">
+                            <field name="x_parts_irpp"/>
+                            <field name="x_is_soignant"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
