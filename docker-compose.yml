@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  odoo:
+    image: odoo:19
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8069:8069"
+      - "8072:8072"
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: odoo
+    volumes:
+      - ./addons:/mnt/extra-addons:ro
+      - ./odoo.conf:/etc/odoo/odoo.conf:ro
+      - odoo-web-data:/var/lib/odoo
+    command: ["odoo", "-c", "/etc/odoo/odoo.conf"]
+
+  # 14th koma-spa sidecar — PWA bridge to Odoo (ERP/HR reads + Gabon payroll).
+  # The browser talks only to this service, never to Odoo's 8069 directly.
+  odoo-service:
+    build: ../koma-spa/odoo-service
+    depends_on:
+      odoo:
+        condition: service_started
+    ports:
+      - "8030:8030"
+    environment:
+      ODOO_URL: "http://odoo:8069"
+      ODOO_DB: "odopk"
+      ODOO_SERVICE_LOGIN: "admin"
+      ODOO_SERVICE_PASSWORD: "admin"
+      ODOO_AUTH_DISABLED: "true"        # dev: X-Actor-* headers. Set false + Keycloak JWKS in prod.
+      CORS_ORIGINS: "http://localhost:5173,http://localhost:4173"
+
+volumes:
+  odoo-db-data:
+  odoo-web-data:

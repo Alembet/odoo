@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_bulletin_paie_list" model="ir.ui.view">
+        <field name="name">x.bulletin.paie.list</field>
+        <field name="model">x.bulletin.paie</field>
+        <field name="arch" type="xml">
+            <list string="Bulletins de paie" decoration-muted="state == 'draft'">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="period"/>
+                <field name="brut_imposable" sum="Brut"/>
+                <field name="net_a_payer" sum="Net"/>
+                <field name="cout_employeur" sum="Coût employeur"/>
+                <field name="computed_by"/>
+                <field name="computed_on"/>
+                <field name="state" widget="badge" decoration-success="state == 'confirmed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_bulletin_paie_form" model="ir.ui.view">
+        <field name="name">x.bulletin.paie.form</field>
+        <field name="model">x.bulletin.paie</field>
+        <field name="arch" type="xml">
+            <form string="Bulletin de paie">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Employé &amp; période">
+                            <field name="employee_id"/>
+                            <field name="period"/>
+                            <field name="parts"/>
+                        </group>
+                        <group string="Entrées">
+                            <field name="basic"/>
+                            <field name="primes_imposables"/>
+                            <field name="avantages_nature"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Retenues salariales">
+                            <field name="brut_imposable"/>
+                            <field name="cnss_sal"/>
+                            <field name="cnamgs_sal"/>
+                            <field name="tcs_sal"/>
+                            <field name="irpp"/>
+                            <field name="net_a_payer"/>
+                        </group>
+                        <group string="Charges patronales">
+                            <field name="cnss_pat"/>
+                            <field name="cnamgs_pat"/>
+                            <field name="fnh_pat"/>
+                            <field name="charges_patronales"/>
+                            <field name="cout_employeur"/>
+                        </group>
+                    </group>
+                    <group string="Audit / reproductibilité">
+                        <field name="computed_by"/>
+                        <field name="computed_by_uid"/>
+                        <field name="computed_on"/>
+                        <field name="move_id"/>
+                        <field name="rates_snapshot"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bulletin_paie" model="ir.actions.act_window">
+        <field name="name">Bulletins de paie</field>
+        <field name="res_model">x.bulletin.paie</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_paie_gabon_root" name="Paie Gabon" sequence="90"/>
+    <menuitem id="menu_bulletin_paie" name="Bulletins de paie"
+              parent="menu_paie_gabon_root" action="action_bulletin_paie" sequence="10"/>
+</odoo>
