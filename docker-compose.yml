@@ -43,8 +43,9 @@ services:
     environment:
       ODOO_URL: "http://odoo:8069"
       ODOO_DB: "odopk"
-      ODOO_SERVICE_LOGIN: "admin"
-      ODOO_SERVICE_PASSWORD: "admin"
+      # Sourced from the git-ignored .env file (defaults keep dev working if unset).
+      ODOO_SERVICE_LOGIN: "${ODOO_SERVICE_LOGIN:-admin}"
+      ODOO_SERVICE_PASSWORD: "${ODOO_SERVICE_PASSWORD:-admin}"
       ODOO_AUTH_DISABLED: "true"        # dev: X-Actor-* headers. Set false + Keycloak JWKS in prod.
       CORS_ORIGINS: "http://localhost:5173,http://localhost:4173"
 
